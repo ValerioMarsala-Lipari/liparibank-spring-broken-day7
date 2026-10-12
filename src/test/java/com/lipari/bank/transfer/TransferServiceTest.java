@@ -60,10 +60,8 @@ class TransferServiceTest {
     @Test
     void executeTransfer_insufficientBalance_throwsBusinessException() {
         Account sourceAccount = new Account(1L, "IT60X054280001000000123456", BigDecimal.valueOf(50), customer);
-        Account destinationAccount = new Account(2L, "IT60X054280001000000654321", BigDecimal.valueOf(200), customer);
 
         when(accountRepository.findById(1L)).thenReturn(Optional.of(sourceAccount));
-        when(accountRepository.findById(2L)).thenReturn(Optional.of(destinationAccount));
 
         assertThrows(BusinessException.class, () ->
                 transferService.executeTransfer(1L, 2L, BigDecimal.valueOf(100)));

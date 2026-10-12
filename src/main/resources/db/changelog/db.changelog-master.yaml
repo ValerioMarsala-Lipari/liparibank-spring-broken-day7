@@ -132,15 +132,3 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_user_roles_role
                     references: role(id)
-
-  - changeSet:
-      id: 6
-      author: liparibank
-      changes:
-        - addColumn:
-            tableName: customer
-            columns:
-              - column:
-                  name: external_ref
-                  type: VARCHAR(36)
-                  defaultValueComputed: gen_random_uuid()

@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: liparibank-day07
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/liparibankdb
+    driver-class-name: org.postgresql.Driver
+    username: lipari
+    password: lipari123
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /v3/api-docs
+
+server:
+  port: 8080
+
+app:
+  jwt:
+    secret: "LipariBank2024SecretKeyForJWTSigningAlgorithmHS256MustBe32Chars"
+    expiration-ms: 3600000
+    refresh-expiration-ms: 86400000
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    com.lipari.bank: DEBUG

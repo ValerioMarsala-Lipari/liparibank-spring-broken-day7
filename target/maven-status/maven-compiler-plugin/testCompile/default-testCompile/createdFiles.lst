@@ -1,0 +1,4 @@
+com\lipari\bank\account\AccountControllerTest.class
+com\lipari\bank\transfer\TransferServiceTest.class
+com\lipari\bank\account\AccountServiceTest.class
+com\lipari\bank\account\AccountRepositoryTest.class

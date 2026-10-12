@@ -1,8 +1,10 @@
 package com.lipari.bank.account;
-
-import com.lipari.bank.account.model.Account;
+import com.lipari.bank.auth.LipariBankUserDetailsService;
 import com.lipari.bank.shared.config.SecurityConfig;
 import com.lipari.bank.shared.exception.ResourceNotFoundException;
+import com.lipari.bank.shared.security.JwtService;
+import com.lipari.bank.shared.security.LipariBankAccessDeniedHandler;
+import com.lipari.bank.shared.security.LipariBankAuthenticationEntryPoint;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -11,19 +13,20 @@ import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(AccountController.class)
-@Import(SecurityConfig.class)
+@Import({
+    SecurityConfig.class,
+    LipariBankAccessDeniedHandler.class,
+    LipariBankAuthenticationEntryPoint.class
+})
 class AccountControllerTest {
 
     @Autowired
@@ -31,6 +34,12 @@ class AccountControllerTest {
 
     @MockBean
     private AccountService accountService;
+
+    @MockBean
+    private JwtService jwtService;
+
+    @MockBean
+    private LipariBankUserDetailsService userDetailsService;
 
     @Test
     @WithMockUser(roles = "CUSTOMER")

@@ -34,13 +34,16 @@ public class AuthService {
             throw new IllegalArgumentException("Username already exists: " + request.username());
         }
 
-        String roleName = request.role() != null ? request.role().toUpperCase() : "CUSTOMER";
-        if (!roleName.startsWith("ROLE_")) {
-            roleName = "ROLE_" + roleName;
-        }
+        String requestedRole = request.role() != null
+            ? request.role().toUpperCase()
+            : "CUSTOMER";
+
+        String roleName = requestedRole.startsWith("ROLE_")
+            ? requestedRole
+            : "ROLE_" + requestedRole;
 
         Role role = roleRepository.findByName(roleName)
-                .orElseThrow(() -> new IllegalArgumentException("Role not found: " + roleName));
+            .orElseThrow(() -> new IllegalArgumentException("Role not found: " + roleName));
 
         BankUser user = new BankUser();
         user.setUsername(request.username());
